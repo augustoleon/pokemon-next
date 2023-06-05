@@ -5,7 +5,7 @@ module.exports = {
 		'arrow-parens': [0, 'as-needed'],
 		'linebreak-style': 0,
 		'import/no-extraneous-dependencies': 'off',
-		'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+		'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx', '.js'] }],
 		'react/jsx-props-no-spreading': 'off',
 		'prettier/prettier': [
 			'error',

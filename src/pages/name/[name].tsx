@@ -7,14 +7,14 @@ import confetti from 'canvas-confetti';
 
 import { Layout } from '../../../components/layouts';
 import { pokeApi } from '../api';
-import { Pokemon } from '@/interfaces';
+import { Pokemon, PokemonListResponse } from '@/interfaces';
 import { getPokemonData, localFavorites } from '@/utils';
 
 interface Props {
 	pokemon: Pokemon;
 }
 
-const PokemonPage: NextPage<Props> = ({ pokemon }) => {
+const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
 	const [isInFavorites, setIsInFavorites] = useState(localFavorites.existInFavorites(pokemon.id));
 
 	const onToggleFavorite = () => {
@@ -97,11 +97,12 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
-	const pokemon151 = [...Array(151)].map((value, i) => `${i + 1}`);
+	const { data } = await pokeApi.get<PokemonListResponse>('/pokemon?limit=151');
 
+	const pokemonByName: string[] = data.results.map(pokemon => pokemon.name);
 	return {
-		paths: pokemon151.map(id => ({
-			params: { id },
+		paths: pokemonByName.map(name => ({
+			params: { name },
 		})),
 		// No habrá ningun fallback, es decir, si la persona agrego un params que no existe va a devolver un 404
 		fallback: false,
@@ -109,12 +110,12 @@ export const getStaticPaths: GetStaticPaths = async ctx => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const { id } = params as { id: string };
+	const { name } = params as { name: string };
 
 	return {
 		props: {
-			pokemon: await getPokemonData(id),
+			pokemon: await getPokemonData(name),
 		},
 	};
 };
-export default PokemonPage;
+export default PokemonByNamePage;
