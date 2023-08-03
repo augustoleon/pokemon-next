@@ -104,17 +104,27 @@ export const getStaticPaths: GetStaticPaths = async ctx => {
 		paths: pokemonByName.map(name => ({
 			params: { name },
 		})),
-		// No habrá ningun fallback, es decir, si la persona agrego un params que no existe va a devolver un 404
-		fallback: false,
+		fallback: 'blocking',
 	};
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 	const { name } = params as { name: string };
 
+	const pokemon = await getPokemonData(name);
+
+	if (!pokemon) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		};
+	}
+
 	return {
 		props: {
-			pokemon: await getPokemonData(name),
+			pokemon,
 		},
 	};
 };
