@@ -22,22 +22,22 @@ export const Navbar = () => {
 				width={70}
 				height={70}
 			/>
-			<NextLink href="/" passHref>
-				{/* <Link> */}
-				<Text color="white" h2>
-					P
-				</Text>
-				<Text color="red" h3>
+			<NextLink href="/" passHref legacyBehavior>
+				<Link>
+					<Text color="white" h2>
+						P
+					</Text>
+					<Text color="red" h3>
 					okémon
-				</Text>
-				{/* </Link> */}
+					</Text>
+				</Link>
 			</NextLink>
 			{/* Propiedad css para los componentes propios de NextUI, en lugar de style*/}
 			<Spacer css={{ flex: 1 }} />
-			<NextLink href="/favorites" passHref>
-				{/* <Link> */}
-				<Text color="white">Favoritos</Text>
-				{/* </Link> */}
+			<NextLink href="/favorites" passHref legacyBehavior>
+				<Link>
+					<Text color="white">Favoritos</Text>
+				</Link>
 			</NextLink>
 		</div>
 	);
