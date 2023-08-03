@@ -14,8 +14,9 @@ interface Props {
 }
 
 const PokemonPage: NextPage<Props> = ({ pokemon }) => {
+	
 	const [isInFavorites, setIsInFavorites] = useState(localFavorites.existInFavorites(pokemon.id));
-
+	
 	const onToggleFavorite = () => {
 		localFavorites.toggleFavorite(pokemon.id);
 		setIsInFavorites(!isInFavorites);
@@ -104,6 +105,10 @@ export const getStaticPaths: GetStaticPaths = async ctx => {
 		})),
 		// No habrá ningun fallback, es decir, si la persona agrego un params que no existe va a devolver un 404
 		// fallback: false,
+
+		// Se llama antes del renderizado inicial cuando se usa 'blocking'
+		// las rutas no devueltas en GSP esperaran que se genere el HTML de forma identica que el SSR
+		// Luego se almacena en caché para futuras solicitudes
 		fallback: 'blocking',
 	};
 };
